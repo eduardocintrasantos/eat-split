@@ -40,16 +40,16 @@ export default function App() {
   }
 
   function handleSelection(friend) {
-    selectedFriend(friend)
+    setSelectedFriend(friend);
   }
 
   return <div className="app">
     <div className="sidebar">
       <FriendList friends={friends} onSelection={handleSelection}/>
       {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
-      <Button clickEvent={handleShowAddFriend}>Add Friend</Button>
+      <Button clickEvent={handleShowAddFriend}>{showAddFriend ? "Close" : "Add Friend"}</Button>
     </div>
-    {selectedFriend && <FormSplitBill />}
+    {selectedFriend && <FormSplitBill selectedFriend={selectedFriend}/>}
   </div>
 }
 
@@ -57,7 +57,7 @@ function FriendList({friends, onSelection}) {
   return (
     <ul>
       {friends.map((friend)=>(
-        <Friend friend={friend} key={friend.id} onSelecrion={onSelection}/>
+        <Friend friend={friend} key={friend.id} onSelection={onSelection}/>
       ))}
     </ul>
   )
@@ -123,11 +123,11 @@ function FormAddFriend({onAddFriend}) {
   </form>
 }
 
-function FormSplitBill() {
+function FormSplitBill({selectedFriend}) {
 
   return (
     <form className="form-split-bill">
-      <h2>Split a bill with X</h2>
+      <h2>Split a bill with {selectedFriend.name}</h2>
 
       <label>💵 Bill Value</label>
       <input type="text"></input>
